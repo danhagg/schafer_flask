@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 # Creat db instance
 db = SQLAlchemy(app)
 
-# SQLAlchemy allows us to represnt database structe as classes (aka models)
+# SQLAlchemy allows us to represent database structure as classes (aka models)
 # Each class its own table in SQLALCHEMY_DATABASE_URI
 # Import db, by going to cmdline,
 # "python"... "from flaskblog import db"
@@ -23,13 +23,19 @@ db = SQLAlchemy(app)
 # "from flaskblog import User, Post"
 # "user_1 = User(username="dan", email="dan@gmail.com", password='password')
 # db.session.add(user_1)
-# user_2 = User(username='JohnDoe', email='JD@demo.com', password='pasword')
+# user_2 = User(username='JohnDoe', email='JD@demo.com', password='password')
 # db.session.add(user_2)
 # db.session.commit()
 # User.query.all()
 # User.query.first()
 # user = User.query.filter_by(username="Corey").first()
 # user.id
+# user.posts
+# post_1 = Post(title='Blog 1', content='first post', user_id=User.id)
+# post_2 = Post(title='Blog 2', content=' post', userid=user.id)
+# >>> db.session.add(post_1)
+# db.session.add(post_2)
+# db.session.commit()
 # user.posts
 
 
@@ -59,7 +65,7 @@ class Post(db.Model):
         default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     # Relationship to user, id from User
-    userid = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
