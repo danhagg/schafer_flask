@@ -1,31 +1,16 @@
 from datetime import datetime
 # from flaskblog import db
-from flaskblog import db
+from flaskblog import db, login_manager
+from flask_login import UserMixin
 
 
-# SQLAlchemy allows us to represent database structure as classes (aka models)
-# Each class its own table in SQLALCHEMY_DATABASE_URI
-# Import db, by going to cmdline,
-# "python"... "from flaskblog import db"
-# "db.create_all()"
-# "from flaskblog import User, Post"
-# "user_1 = User(username="dan", email="dan@gmail.com", password='password')
-# db.session.add(user_1)
-# user_2 = User(username='JohnDoe', email='JD@demo.com', password='password')
-# db.session.add(user_2)
-# db.session.commit()
-# User.query.all()
-# User.query.first()
-# user = User.query.filter_by(username="Corey").first()
-# user.id
-# user.posts
-# post_1 = Post(title='Blog 1', content='first post', user_id=User.id)
-# post_2 = Post(title='Blog 2', content=' post', userid=user.id)
-# >>> db.session.add(post_1)
-# db.session.add(post_2)
-# db.session.commit()
-# user.posts
-class User(db.Model):
+# Function for logged in users/sessions
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
