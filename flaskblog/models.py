@@ -22,7 +22,7 @@ class User(db.Model, UserMixin):
     # lazy = load data as necessary in one go (all posts by one user)
     posts = db.relationship('Post', backref='author', lazy=True)
 
-    def ger_reset_token(self, expires_sec=1800):
+    def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
